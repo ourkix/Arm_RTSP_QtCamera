@@ -16,7 +16,7 @@ static int framesc = 0;
 static bool started = false;
 static bool multi = false;
 
-int imagesizes = 500;
+int imagesizes = 300;
 
 QString m_current_fps;
 
@@ -27,8 +27,8 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-	 cam = VideoCapture("rtsp://admin:a12345678@192.168.0.64/main/Channels/1");
-	
+	 //cam = VideoCapture("rtsp://admin:a12345678@192.168.0.64/main/Channels/1");
+	cam = VideoCapture("rtsp://admin:a12345678@192.168.0.64/h264/ch1/sub/av_stream");
 	//开始线程
 	  //m_opencvcap->start();
 	
