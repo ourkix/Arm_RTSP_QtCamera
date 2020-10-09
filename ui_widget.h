@@ -26,7 +26,7 @@ class Ui_Widget
 public:
     QLabel *label,*fpslabel;
     QLineEdit *edit,*sizeedit;
-
+    QPushButton *pushButton_start,*changeex,*changesize;
     
     void setupUi(QWidget *Widget)
     {
@@ -50,9 +50,11 @@ public:
 	edit->setObjectName("edit");
 	edit->setPlaceholderText("Normal");
 	edit->setEchoMode(QLineEdit::Normal);
-	edit->setGeometry(QRect(20, 570, 101, 41));
+	edit->setGeometry(QRect(20, 570, 400, 41));
 
-
+        changeex = new QPushButton(Widget);
+        changeex->setObjectName(QStringLiteral("changeex"));
+        changeex->setGeometry(QRect(450, 570, 101, 41));
 
 	sizeedit = new QLineEdit(Widget);
 	sizeedit->setObjectName("sizeedit");
@@ -60,6 +62,9 @@ public:
 	sizeedit->setEchoMode(QLineEdit::Normal);
 	sizeedit->setGeometry(QRect(20, 640, 101, 41));
 
+       changesize = new QPushButton(Widget);
+        changesize->setObjectName(QStringLiteral("changesize"));
+        changesize->setGeometry(QRect(140, 640, 101, 41));
 
 
         retranslateUi(Widget);
@@ -72,7 +77,8 @@ public:
         Widget->setWindowTitle(QApplication::translate("Widget", "opencvrtsp", 0));
         label->setText(QString());
 	fpslabel->setText(QString());
-      
+      	changeex->setText(QApplication::translate("Widget", "change", 0));
+	changesize->setText(QApplication::translate("Widget", "cgsize", 0));
 
 
     } // retranslateUi

@@ -14,6 +14,7 @@ void OpencvCap::run()
 {
     if(!m_cap.isOpened())
     {
+	printf("cannot open the videocapture!\n");
         qDebug("cannot open the videocapture\n");
         return ;
     }
@@ -27,7 +28,14 @@ void OpencvCap::run()
             return ;
         }
         put_frame(current_frame);
-        waitKey(20);
+        usleep(20);
+	count++;
+	//printf("thread is running!\n");
+	if(count>50)
+	{
+		count = 0;
+		printf("thread is running!\n");
+	}
 
     }
 }

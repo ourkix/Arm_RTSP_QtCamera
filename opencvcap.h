@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <QThread>
@@ -27,6 +28,8 @@ private:
     QMutex m_mutex;
     //videocapture
     VideoCapture m_cap;
+
+    int count;
 };
 
 

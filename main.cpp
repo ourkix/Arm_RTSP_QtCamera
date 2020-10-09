@@ -1,5 +1,6 @@
 
 #include <QApplication>
+#include "opencvcap.h"
 #include "widget.h"
 //#include "opencvcap.h"
 

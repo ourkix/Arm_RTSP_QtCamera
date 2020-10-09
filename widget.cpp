@@ -3,18 +3,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "opencvcap.h"
+#include "opencvcap.h"
 
 
 
-   
-//创建对象，初始化
-//OpencvCap *m_opencvcap;
+    //创建对象，初始化
+    OpencvCap *m_opencvcap;
 
 static QTime timec;
 static int framesc = 0;
 static bool started = false;
-static bool multi = false;
+//static bool multi = false;
 
 int imagesizes = 300;
 
@@ -27,14 +26,16 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-	 //cam = VideoCapture("rtsp://admin:a12345678@192.168.0.64/main/Channels/1");
-	cam = VideoCapture("rtsp://admin:a12345678@192.168.0.64/h264/ch1/sub/av_stream");
+	//cam = VideoCapture("rtsp://admin:a12345678@192.168.0.64/main/Channels/1");
+	//cam = VideoCapture("rtsp://admin:a12345678@192.168.0.64/h264/ch1/sub/av_stream");
+
+
+	ui->edit->setText(QString("rtsp://admin:a12345678@192.168.0.64/h264/ch1/sub/av_stream"));
+
+    /*线程初始化*/
+   	m_opencvcap = new OpencvCap("rtsp://admin:a12345678@192.168.0.64/h264/ch1/sub/av_stream");
 	//开始线程
-	  //m_opencvcap->start();
-	
-
-
-
+   	m_opencvcap->start();
 }
 
 Widget::~Widget()
@@ -44,21 +45,33 @@ Widget::~Widget()
 
 }
 
+
+
 void Widget::paintEvent(QPaintEvent *)
 {
   
 
     	 Mat frame;
+	bool ret = false;
+	if(m_opencvcap!=NULL)
+	{
+		ret = m_opencvcap->get_frame(frame);
+	}
+	if(ret == false || frame.empty())
+	{
+		printf("get frame error!\n");
+	}
+	else
+	{
 
-       if (cam.isOpened())
-        {
-            //capture >> frame;
-	    bool result = cam.read(frame);
 
-		//处理图像······
-		//imshow("windows",frame);	
-		    Mat images = frame;
-     int new_width,new_height,width,height,channel;
+//       if (cam.isOpened())
+//        {
+//	    bool result = cam.read(frame);
+
+
+	Mat images = frame;
+	int new_width,new_height,width,height,channel;
         width=images.cols;
         height=images.rows;
         channel=images.channels();
@@ -69,9 +82,9 @@ void Widget::paintEvent(QPaintEvent *)
         cv::resize(images, images, cv::Size(new_width, new_height));
 
 
-    QImage xii = cvMat_to_QImage(images);    
+	QImage xii = cvMat_to_QImage(images);    
 
-    ui->label->setPixmap(QPixmap::fromImage(xii));
+	ui->label->setPixmap(QPixmap::fromImage(xii));
 
 	}
 
@@ -190,6 +203,32 @@ QImage Widget::cvMat_to_QImage(const cv::Mat &mat ) {
     {
         return QImage();
     }
+
+}
+
+
+void Widget::on_changeex_clicked()
+{
+	char path[150];
+	QString strtext = ui->edit->text();
+	//int a = strtext.toInt();
+
+	QByteArray ba = strtext.toLocal8Bit();
+	memcpy(path,ba.data(),ba.size()+1);//加1是为了最后的终结符，否则转换回来的时候不知道什么时候截止
+   	 /*线程初始化*/
+   	m_opencvcap = new OpencvCap(path);
+	//开始线程
+   	m_opencvcap->start();
+	printf("%s\n",path);
+	printf("open cam succes!\n");
+}
+
+void Widget::on_changesize_clicked()
+{
+	QString strtext = ui->sizeedit->text();
+	int a = strtext.toInt();
+
+	imagesizes = a;
 
 }
 

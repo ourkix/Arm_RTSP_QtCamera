@@ -6,7 +6,7 @@
 #include <QTime>
 #include <QPainter>
 #include <QLineEdit>
-
+#include <QVBoxLayout>
 
 #include <string>
 #include <exception>
@@ -14,7 +14,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-
+//#include "opencvcap.h"
 
 
 using namespace cv;
@@ -35,9 +35,13 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
+
+
 private:
     Ui::Widget *ui;
 
+
+    QVBoxLayout *mainLayout;
 
     VideoCapture cam;
 
@@ -72,6 +76,9 @@ private:
 
 private slots:
     void paintEvent(QPaintEvent *);
+
+    void on_changeex_clicked();
+    void on_changesize_clicked();
 
 };
 #endif // WIDGET_H
