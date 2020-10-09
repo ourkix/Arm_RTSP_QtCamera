@@ -3,14 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "opencvcap.h"
-
+//#include "opencvcap.h"
 
 
 
    
 //创建对象，初始化
-OpencvCap *m_opencvcap;
+//OpencvCap *m_opencvcap;
 
 static QTime timec;
 static int framesc = 0;
@@ -28,10 +27,10 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-	 m_opencvcap = new OpencvCap("rtsp://admin:a12345678@192.168.0.64/main/Channels/1");
+	 cam = VideoCapture("rtsp://admin:a12345678@192.168.0.64/main/Channels/1");
 	
 	//开始线程
-	  m_opencvcap->start();
+	  //m_opencvcap->start();
 	
 
 
@@ -50,11 +49,12 @@ void Widget::paintEvent(QPaintEvent *)
   
 
     	 Mat frame;
-	 while(true)
-	{
-		 bool ret = m_opencvcap->get_frame(frame);
-         if(ret == false || frame.empty())
-			return;
+
+       if (cam.isOpened())
+        {
+            //capture >> frame;
+	    bool result = cam.read(frame);
+
 		//处理图像······
 		//imshow("windows",frame);	
 		    Mat images = frame;

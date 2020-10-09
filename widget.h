@@ -38,6 +38,9 @@ public:
 private:
     Ui::Widget *ui;
 
+
+    VideoCapture cam;
+
     QImage *frame;
     QLabel *tp;
     QByteArray *aa;
